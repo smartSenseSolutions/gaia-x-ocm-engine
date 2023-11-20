@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    meta.helm.sh/release-name: nats
+    meta.helm.sh/release-namespace: ocm-engine
+  labels:
+    app.kubernetes.io/component: nats
+    app.kubernetes.io/instance: nats
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: nats
+    app.kubernetes.io/version: 2.10.4
+    helm.sh/chart: nats-1.1.4
+  name: nats-ui
+  namespace: ocm-engine
+spec:
+  type: NodePort
+  ports:
+  - appProtocol: tcp
+    name: nats-ui
+    port: 8222
+    protocol: TCP
+    nodePort: 30020
+  selector:
+    app.kubernetes.io/component: nats
+    app.kubernetes.io/instance: nats
+    app.kubernetes.io/name: nats

@@ -1,0 +1,67 @@
+replicaCount: 1
+
+image:
+  repository: ""
+  name: ocm-engine-ssi-abstraction
+  tag: "latest"
+  pullPolicy: IfNotPresent
+  pullSecrets: ""
+
+
+resources:
+  requests:
+    cpu: 25m
+    memory: 64Mi
+  limits:
+    cpu: 150m
+    memory: 512Mi
+
+metrics:
+  enabled: false
+
+log:
+  level: "INFO"
+  encoding: json
+
+service:
+  port: 3009
+
+ssiAbstraction:
+  agent:
+    name: ssi-abstraction-agent
+    host: gaiax-ocm-engine.proofsense.in
+    protocol: https
+    urlPath: /didcomm
+    publicDidSeed: "09434281059582403190679971947289"
+    autoAccept:
+      connection: true
+      credential: contentApproved
+    wallet:
+      key: ssi-wallet-key
+      id: ssi-wallet-id
+    ledgerId: BCOVRIN_TEST
+    unionKey: example-example-example-example
+  afjExtPort: 3010
+  database:
+    host: postgres.default
+    user: smartsense-gaia-x
+    password: mie4OVahpoochai6
+    port: 5432
+    schema: proof
+    db: postgres
+  nats:
+    url: nats.ocm-engine
+    port: 4222
+    protocol: nats
+  elastic:
+    url: ""
+    port: 9200
+    protocol: http
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  tlsEnabled: true
+  frontendDomain: gaiax-ocm-engine.proofsense.in
+  frontendTlsSecretName: ssi-abstraction-tls

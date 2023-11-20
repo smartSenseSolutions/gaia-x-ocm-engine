@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  name: aries-mediator-wss
+  namespace: ocm-engine
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: gaiax-ocm-engine.proofsense.in
+    http:
+      paths:
+      - backend:
+          service:
+            name: aries-mediator
+            port:
+              number: 3001
+        path: /mediator-wss(/|$)(.*)
+        pathType: Prefix
+  tls:
+  - hosts:
+    - gaiax-ocm-engine.proofsense.in
+    secretName: ssi-abstraction-tls

@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Schema {
+  id              String          @id @default(uuid())
+  schemaID        String          @unique @map("schema_id")
+  name            String
+  createdBy       String          @map("created_by")
+  createdDate     DateTime        @default(now()) @map("created_date")
+  updatedBy       String          @default("") @map("updated_by")
+  updatedDate     DateTime        @default(now()) @map("updated_date")
+  attribute       Attributes[]
+  credential_defs CredentialDef[]
+}
+
+model Attributes {
+  id           String    @id @default(uuid())
+  schemaID     String    @map("schema_id")
+  name         String
+  createdBy    String    @map("created_by")
+  createdDate  DateTime  @default(now())  @map("created_date")
+  updatedBy    String    @default("")     @map("updated_by")
+  updatedDate  DateTime  @default(now())  @map("updated_date")
+  schema       Schema[]
+}
+
+model CredentialDef {
+  id            String       @id @default(uuid())
+  schemaID      String       @map("schema_id")
+  name          String
+  credDefId     String       @unique  @map("cred_def_id")
+  isAutoIssue   Boolean      @map("is_auto_issue")
+  isRevokable   Boolean      @map("is_revokable")
+  expiryHours   String       @map("expiry_hours")
+  createdBy     String       @map("created_by")
+  createdDate   DateTime     @default(now())    @map("created_date")
+  updatedBy     String       @default("")       @map("updated_by")
+  updatedDate   DateTime     @default(now())    @map("updated_date")
+  schema        Schema[]
+  credentials   Credential[]
+}
+
+model UserInfo {
+  id                     Int      @id @default(autoincrement())
+  connectionId           String   @map("connection_id")
+  credentialDefinitionId String?  @map("credential_definition_id")
+  autoAcceptCredential   String   @map("auto_accept_credential")
+  status                 String?
+  userInfo               Json?    @map("user_info")
+}
+
+model proposeCredential {
+  id                     Int      @id @default(autoincrement())
+  connectionId           String   @map("connection_id")
+  comment                String
+  credentialProposal     String[] @map("credential_proposal")
+  schemaIssuerDid        String   @map("schema_issuer_id")
+  schemaId               String   @map("schema_id")
+  schemaName             String   @map("schema_name")
+  schemaVersion          String   @map("schema_version")
+  credentialDefinitionId String   @map("credential_definition_id")
+  issuerDid              String   @map("issuer_did")
+  attachments            String
+  linkedAttachments      String   @map("linked_attachments")
+  autoAcceptCredential   String   @map("auto_accept_credential")
+}
+
+model Credential {
+  id             String          @id @default(uuid())
+  credentialId   String          @unique @map("credential_id")
+  credDefId      String          @map("cred_def_id")
+  threadId        String          @default(uuid()) @unique @map("thread_id")
+  state          String
+  principalDid   String          @map("principal_did")
+  connectionId   String          @map("connection_id")
+  createdDate    DateTime        @default(now()) @map("created_date")
+  updatedDate    DateTime        @default(now()) @map("updated_date")
+  expirationDate DateTime?       @map("expiration_date")
+  credentialDef  CredentialDef[]
+}
+
+model CredentialsType {
+  id       String @id @default(uuid())
+  type     String @unique
+  schemaId String @unique @map("schema_id")
+}

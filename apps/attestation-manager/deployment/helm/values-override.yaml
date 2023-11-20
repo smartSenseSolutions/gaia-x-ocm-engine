@@ -1,0 +1,60 @@
+replicaCount: 1
+
+image:
+  repository: ""
+  name: ocm-engine-attestation-manager
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+resources:
+  requests:
+    cpu: 25m
+    memory: 64Mi
+  limits:
+    cpu: 150m
+    memory: 128Mi
+
+metrics:
+  enabled: false
+
+log:
+  level: "INFO"
+  encoding: json
+
+service:
+  port: 3005
+
+attestationManager:
+  acceptMembershipCredentialsConfig: AUTO
+  agent:
+    host: ssi-abstraction.ocm-engine
+    protocol: http
+    port: 3010
+  database:
+    host: postgres.default
+    user: smartsense-gaia-x
+    password: mie4OVahpoochai6
+    port: 5432
+    schema: attestation
+    db: postgres
+  nats:
+    url: nats.ocm-engine
+    port: 4222
+    protocol: nats
+  elastic:
+    url: ""
+    port: 9200
+    protocol: http
+  url:
+    tsa: https://gaiax.vereign.com/tsa/policy/policy/example
+    connectionManager: http://connection-manager.ocm-engine:3003
+    attestationManager: http://attestation-manager.ocm-engine:3005
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  tlsEnabled: true
+  frontendDomain: gaiax-ocm-engine.proofsense.in
+  frontendTlsSecretName: ssi-abstraction-tls

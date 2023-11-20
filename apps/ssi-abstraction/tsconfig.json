@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "module": "commonjs",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+    "strict": true,
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "strictPropertyInitialization": false,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "paths": {
+      "@src/*": ["src/*"],
+      "@config/*": ["config/*"],
+      "@globalUtils/*" :["src/globalUtils/*"],
+      "@common/*":["src/common/*"],
+      "@agent/*":["src/agent/*"],
+      "@didComm/*":["src/didComm/*"],
+      "@health/*":["src/health/*"],
+      "@DB/*":["src/prisma/*"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "./dist/**/*"
+  ]
+}

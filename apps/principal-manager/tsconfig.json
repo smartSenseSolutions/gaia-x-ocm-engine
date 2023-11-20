@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es6",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@src/*":["src/*"],
+      "@client/*":["src/client/*"],
+      "@config/*":["config/*"],
+      "@utils/*" :["src/utils/*"],
+      "@common/*":["src/common/*"],
+      "@principal/*":["src/principal/*"],
+      "@health/*":["src/health/*"],
+      "@DB/*":["src/prisma/*"]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "src",
+    "config",
+  ],
+  "exclude": ["node_modules", "./dist/**/*"]
+}

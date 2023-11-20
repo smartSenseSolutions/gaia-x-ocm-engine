@@ -1,0 +1,1833 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/health": {
+      "get": {
+        "operationId": "HealthController_getHealth",
+        "summary": "Health check",
+        "description": "This call provides the capability to check the service is working and up. The call returns 200 Status Code and current server time in json body",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Service is up and running.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Service is up and running.": {
+                    "value": {
+                      "statusCode": 200,
+                      "message": "Thu Jan 01 1970 00:00:00 GMT+0000 (Coordinated Universal Time)"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/schemas": {
+      "get": {
+        "operationId": "SchemasController_findSchemas",
+        "summary": "Fetch a list of schemas",
+        "description": "This call provides capabilities to search schemas (which have been created by this OCM) by using pagination. This call returns a list of schemas and overall count of records. Every record contains schemaId, name, attributes",
+        "parameters": [
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Schemas fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Schemas fetched successfully": {
+                    "value": {
+                      "statusCode": 200,
+                      "message": "Schemas fetched successfully",
+                      "data": {
+                        "count": 2,
+                        "records": [
+                          {
+                            "id": "1234abcd",
+                            "schemaID": "loremipsum:test-01-01:1.0",
+                            "name": "test-01-01",
+                            "createdBy": "agentName",
+                            "createdDate": "1970-01-01T00:00:28.343Z",
+                            "updatedBy": "",
+                            "updatedDate": "1970-01-01T00:00:28.343Z",
+                            "attribute": [
+                              {
+                                "name": "attribute1"
+                              },
+                              {
+                                "name": "attribute2"
+                              },
+                              {
+                                "name": "attributeN"
+                              }
+                            ]
+                          },
+                          {
+                            "id": "5678abcd",
+                            "schemaID": "loremipsum2:test2-01-01:1.0",
+                            "name": "test2-01-01",
+                            "createdBy": "agentName",
+                            "createdDate": "1970-01-01T00:00:28.343Z",
+                            "updatedBy": "",
+                            "updatedDate": "1970-01-01T00:00:28.343Z",
+                            "attribute": [
+                              {
+                                "name": "attribute1"
+                              },
+                              {
+                                "name": "attribute2"
+                              },
+                              {
+                                "name": "attributeN"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Data found.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "No Data found.": {
+                    "value": {
+                      "statusCode": 404,
+                      "message": "No Data found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error.": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:27.897Z",
+                      "message": "Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Schemas"
+        ]
+      },
+      "post": {
+        "operationId": "SchemasController_createSchema",
+        "summary": "Create a new schema",
+        "description": "This call provides the capability to create new schema on ledger by name, author, version, schema attributes and type. Later this schema can be used to issue new credential definition. This call returns an information about created schema.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SchemaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Schema created successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Schema created successfully": {
+                    "value": {
+                      "statusCode": 201,
+                      "message": "Schema created successfully",
+                      "data": {
+                        "id": "1234qwer",
+                        "schemaID": "loremipsum:2:test-02-01:1.0",
+                        "name": "test-02-01",
+                        "createdBy": "agentName",
+                        "createdDate": "1970-01-01T00:00:28.343Z",
+                        "updatedBy": "",
+                        "updatedDate": "1970-01-01T00:00:28.343Z",
+                        "attribute": [
+                          {
+                            "name": "attribute1"
+                          },
+                          {
+                            "name": "attribute2"
+                          },
+                          {
+                            "name": "attributeN"
+                          },
+                          {
+                            "name": "attributeN+1"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Schema required following attributes ( name, createdBy, version, attributes )",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Schema required following attributes ( name, createdBy, version, attributes )": {
+                    "value": {
+                      "statusCode": 400,
+                      "message": "Schema required following attributes ( name, createdBy, version, attributes )"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Schema already exists",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Schema already exists": {
+                    "value": {
+                      "statusCode": 409,
+                      "message": "Schema already exists"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error.": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:27.897Z",
+                      "message": "Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Schemas"
+        ]
+      }
+    },
+    "/v1/schemas/{id}": {
+      "get": {
+        "operationId": "SchemasController_findSchemasById",
+        "summary": "Fetch schema by id",
+        "description": "This call provides the capability to get schema data by providing schemaId. The schema data is the same which is returned from /v1/schemas endpoint and contains generic information about schema like schemaID, name, createdBy, createdDate, updatedBy, updatedDate, attribute",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Pass schema id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Schema fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Schema fetched successfully": {
+                    "value": {
+                      "statusCode": 200,
+                      "message": "Schema fetched successfully",
+                      "data": {
+                        "count": 1,
+                        "records": [
+                          {
+                            "id": "1234abcd",
+                            "schemaID": "loremipsum:test-01-01:1.0",
+                            "name": "test-01-01",
+                            "createdBy": "agentName",
+                            "createdDate": "1970-01-01T00:00:28.343Z",
+                            "updatedBy": "",
+                            "updatedDate": "1970-01-01T00:00:28.343Z",
+                            "attribute": [
+                              {
+                                "name": "attribute1"
+                              },
+                              {
+                                "name": "attribute2"
+                              },
+                              {
+                                "name": "attributeN"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Data found.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "No Data found.": {
+                    "value": {
+                      "statusCode": 404,
+                      "message": "No Data found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error.": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:27.897Z",
+                      "message": "Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Schemas"
+        ]
+      }
+    },
+    "/v1/schemas/get-dids-for-schema/{id}": {
+      "get": {
+        "operationId": "SchemasController_getDidsForSchema",
+        "summary": "Fetch list of dids for schema id",
+        "description": "This call provides the capability to get principal dids. The format of the response is shown in the example. To issue credentials, you need to have a credential definition. This is a basic principle of this process. This credential definition is created by using the schema. Using this endpoint gives you all dids of participants to whom OCM issued credentials using specified schema.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Schema DIDs fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Schema DIDs fetched successfully": {
+                    "value": {
+                      "statusCode": 200,
+                      "message": "Schema DIDs fetched successfully",
+                      "data": {
+                        "total_credential_defs": 1,
+                        "principalDids": [
+                          {
+                            "loremIpsumCredDef": [
+                              "1234did"
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Data found.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "No Data found.": {
+                    "value": {
+                      "statusCode": 404,
+                      "message": "No Data found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error.": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:27.897Z",
+                      "message": "Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Schemas"
+        ]
+      }
+    },
+    "/v1/create-offer-credential": {
+      "post": {
+        "operationId": "AttestationController_createOfferCredential",
+        "summary": "Send credential offer to a connection",
+        "description": "This call provides the capability to offer credentials to a connection. You need to provide information about credential definition, connection and attributes which will be send to connection. Initial state of this is offer-sent (workflow is here https://github.com/hyperledger/aries-rfcs/tree/main/features/0036-issue-credential). This call returns information about this credential offer. From user perspective this call means that as organization (e.g. Faber university) I want to start issuing crendentials to student (Alice, holder)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OfferCredentialDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Credential created successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Credential created successfully": {
+                    "value": {
+                      "statusCode": 201,
+                      "message": "Credential created successfully",
+                      "data": {
+                        "_tags": {},
+                        "metadata": {
+                          "_internal/indyCredential": {
+                            "credentialDefinitionId": "7KuDTpQh3GJ7Gp6",
+                            "schemaId": "7KuDTpQash2"
+                          }
+                        },
+                        "id": "61c5df9c",
+                        "createdAt": "1970-01-01T12:07:57.388Z",
+                        "state": "offer-sent",
+                        "connectionId": "12cd39de",
+                        "threadId": "195e8ae3",
+                        "offerMessage": {
+                          "@type": "https://didcomm.org/issue-credential/1.0/offer-credential",
+                          "@id": "195e8da",
+                          "comment": "asd",
+                          "credential_preview": {
+                            "@type": "https://didcomm.org/issue-credential/1.0/credential-preview",
+                            "attributes": [
+                              {
+                                "name": "firstName",
+                                "value": "Lorem"
+                              },
+                              {
+                                "name": "email",
+                                "value": "lorem@example.com"
+                              },
+                              {
+                                "name": "au",
+                                "value": "ipsum"
+                              },
+                              {
+                                "name": "expirationDate",
+                                "value": "Wed Mar 01 2084 11:07:57 GMT+0000 (Coordinated Universal Time)"
+                              }
+                            ]
+                          },
+                          "offers~attach": [
+                            {
+                              "@id": "libindy-cred-offer-0",
+                              "mime-type": "application/json",
+                              "data": {
+                                "base64": "eyJzY2hlbWFf"
+                              }
+                            }
+                          ]
+                        },
+                        "credentialAttributes": [
+                          {
+                            "name": "attribute1",
+                            "value": "testValue1"
+                          },
+                          {
+                            "name": "attribute2",
+                            "value": "testValue2"
+                          },
+                          {
+                            "name": "attributeN",
+                            "value": "testValueN"
+                          },
+                          {
+                            "name": "expirationDate",
+                            "value": "Wed Mar 01 2023 11:07:57 GMT+0000 (Coordinated Universal Time)"
+                          }
+                        ],
+                        "autoAcceptCredential": "always"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "offer credentials required following attributes ( connectionId, credentialDefinitionId, attributes, autoAcceptCredential)",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "offer credentials required following attributes ( connectionId, credentialDefinitionId, attributes, autoAcceptCredential)": {
+                    "value": {
+                      "statusCode": 400,
+                      "message": "offer credentials required following attributes ( connectionId, credentialDefinitionId, attributes, autoAcceptCredential)"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error.": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:27.897Z",
+                      "message": "Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Credentials"
+        ]
+      }
+    },
+    "/v1/create-propose-credential": {
+      "post": {
+        "operationId": "AttestationController_createProposeCredential",
+        "summary": "Send credential proposal to a connection",
+        "description": "This call provides the capability to send propose crendential request to a connection. You need to provide information about credential definition, connection and attributes which you want to use for creating credentials. Initial state of this is proposal-sent (workflow is here https://github.com/hyperledger/aries-rfcs/tree/main/features/0036-issue-credential). This call returns information about this credential proposal. From user perspective this call means that as user (e.g. student) I want to ask organization (e.g. Faber university) to initiate issuing credentials for me using provided data",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposeCredentialDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Credential proposed successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Credential proposed successfully": {
+                    "value": {
+                      "statusCode": 201,
+                      "message": "Credential proposed successfully",
+                      "data": {
+                        "_tags": {},
+                        "metadata": {
+                          "_internal/indyCredential": {
+                            "credentialDefinitionId": "7KuDTpQh3GJ7Gp6kErpWvM:3:CL:39399:test-13-03"
+                          }
+                        },
+                        "id": "c566907d",
+                        "createdAt": "1970-01-01T00:00:09.383Z",
+                        "state": "proposal-sent",
+                        "connectionId": "12cd39de",
+                        "threadId": "e271b1a0",
+                        "proposalMessage": {
+                          "@type": "https://didcomm.org/issue-credential/1.0/propose-credential",
+                          "@id": "e271b1a0",
+                          "comment": "asd",
+                          "credential_proposal": {
+                            "@type": "https://didcomm.org/issue-credential/1.0/credential-preview",
+                            "attributes": [
+                              {
+                                "name": "firstName",
+                                "value": "TESTING"
+                              },
+                              {
+                                "name": "email",
+                                "value": "asd@asd.asd"
+                              },
+                              {
+                                "name": "au",
+                                "value": "level1"
+                              }
+                            ]
+                          },
+                          "cred_def_id": "1234abcd"
+                        },
+                        "credentialAttributes": [
+                          {
+                            "name": "firstName",
+                            "value": "TESTING"
+                          },
+                          {
+                            "name": "email",
+                            "value": "asd@asd.asd"
+                          },
+                          {
+                            "name": "au",
+                            "value": "level1"
+                          }
+                        ],
+                        "autoAcceptCredential": "never"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Connection is not trusted",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Connection is not trusted": {
+                    "value": {
+                      "statusCode": 400,
+                      "message": "Connection is not trusted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error.": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:27.897Z",
+                      "message": "Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Credentials"
+        ]
+      }
+    },
+    "/v1/accept-request/{credentialId}": {
+      "post": {
+        "operationId": "AttestationController_acceptOfferCredential",
+        "summary": "Accept credential request by credential id",
+        "description": "Accept a credential request as issuer (by sending a credential message) to the connection associated with the credential record.",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Credentials"
+        ]
+      }
+    },
+    "/v1/accept-proposal/{credentialId}": {
+      "post": {
+        "operationId": "AttestationController_acceptProposeCredential",
+        "summary": "Accept credential proposal by credential id",
+        "description": "Accept a credential proposal as issuer (by sending a credential offer message) to the connection associated with the credential record.",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Credentials"
+        ]
+      }
+    },
+    "/v1/accept-offer/{credentialId}": {
+      "post": {
+        "operationId": "AttestationController_acceptCredentialOffer",
+        "summary": "Accept credential offer by credential id",
+        "description": "Accept a credential offer as holder (by sending a credential request message) to the connection associated with the credential record.",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Credentials"
+        ]
+      }
+    },
+    "/v1/accept-credential/{credentialId}": {
+      "post": {
+        "operationId": "AttestationController_acceptCredential",
+        "summary": "Accept credentials by credential id",
+        "description": "Accept a credential as holder (by sending a credential acknowledgement message) to the connection associated with the credential record.",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Credentials"
+        ]
+      }
+    },
+    "/v1/credential-info/{id}": {
+      "get": {
+        "operationId": "AttestationController_getCredentialInfo",
+        "summary": "Fetch credential information by credential id",
+        "description": "This call provides the capability to get credential information by credential id. This call returns a credential record (CredentialRecord type with fields connectionId, threadId, credentialId, state, autoAcceptCredential, errorMessage, proposalMessage, offerMessage, requestMessage, credentialMessage, credentialAttributes, linkedAttachments and others). This request get credential data directly from agent, so you can use this endpoint to get some additional info which is not presented in /v1/credential/{id}",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Credential information fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Credential information fetched successfully": {
+                    "value": {}
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error.": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:27.897Z",
+                      "message": "Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Credentials"
+        ]
+      }
+    },
+    "/v1/delete-credential/{id}": {
+      "delete": {
+        "operationId": "AttestationController_deleteCredential",
+        "summary": "Delete credential by id",
+        "description": "This call provides the capability to delete credential (request/offer/proposal) by provided credential id",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Credential deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Credential deleted successfully": {
+                    "value": {
+                      "statusCode": 200,
+                      "message": "Credential deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error.": {
+                    "value": {
+                      "statusCode": 500,
+                      "message": "Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Credentials"
+        ]
+      }
+    },
+    "/v1/credential": {
+      "get": {
+        "operationId": "AttestationController_getCredentialList",
+        "summary": "Fetch a list of credentials",
+        "description": "This call provides the capability to search credentials by using pagination and filter parameters to select credentials. This call returns a list of credentials and overall count of records. Filter supports following parameters: page, pageSize, isReceived, threadId, state, credDefId, createdDateStart, createdDateEnd, updatedDateStart, updatedDateEnd, expirationDateStart, expirationDateEnd, connectionId, principalDid",
+        "parameters": [
+          {
+            "name": "principalDid",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "connectionId",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "expirationDateEnd",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "expirationDateStart",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "updatedDateEnd",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "updatedDateStart",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "createdDateEnd",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "createdDateStart",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "credDefId",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "state",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "threadId",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "isReceived",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Credential fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Credential fetched successfully": {
+                    "value": {
+                      "statusCode": 200,
+                      "message": "Credential fetched successfully",
+                      "data": {
+                        "count": 87,
+                        "records": [
+                          {
+                            "id": "14875384",
+                            "credentialId": "c566907d",
+                            "credDefId": "7KuDTpQh3GJ",
+                            "threadId": "e271b1a0",
+                            "state": "proposal-sent",
+                            "principalDid": "KGaeQVaF",
+                            "connectionId": "12cd39de",
+                            "createdDate": "1970-01-01T00:00:09.761Z",
+                            "updatedDate": "1970-01-01T00:00:09.761Z",
+                            "expirationDate": "2070-01-01T00:00:09.756Z"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Data found",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "No Data found": {
+                    "value": {
+                      "statusCode": 404,
+                      "message": "No Data found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error.": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:27.897Z",
+                      "message": "Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Credentials"
+        ]
+      }
+    },
+    "/v1/credential/{id}": {
+      "get": {
+        "operationId": "AttestationController_getCredential",
+        "summary": "Fetch credential by id",
+        "description": "This call provides the capability to get credential data by providing credential id. The credential definition data is the same which is returned from /v1/credential endpoint and contains generic information about credential like credentialId, credDefId, threadId, state, principalDid, connectionId, createdDate, updatedDate, expirationDate",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Credential fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Credential fetched successfully": {
+                    "value": {
+                      "statusCode": 200,
+                      "message": "Credential fetched successfully",
+                      "data": {
+                        "id": "14875384",
+                        "credentialId": "c566907d",
+                        "credDefId": "7KuDTpQh3GJ",
+                        "threadId": "e271b1a0",
+                        "state": "proposal-sent",
+                        "principalDid": "KGaeQVaF",
+                        "connectionId": "12cd39de",
+                        "createdDate": "1970-01-01T00:00:09.761Z",
+                        "updatedDate": "1970-01-01T00:00:09.761Z",
+                        "expirationDate": "2070-01-01T00:00:09.756Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Data found",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "No Data found": {
+                    "value": {
+                      "statusCode": 404,
+                      "message": "No Data found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error.": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:27.897Z",
+                      "message": "Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Credentials"
+        ]
+      }
+    },
+    "/v1/updateSchemaIdByType": {
+      "patch": {
+        "operationId": "AttestationController_updateSchemaIdByType",
+        "summary": "Update schemaId in CredentialsType",
+        "description": "This call provides the capability to update mapping between schema and type.",
+        "parameters": [
+          {
+            "name": "type",
+            "required": true,
+            "in": "query",
+            "schema": {}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSchemaIdByTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "schemaId updated in CredentialsType",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "schemaId updated in CredentialsType": {
+                    "value": {
+                      "statusCode": 200,
+                      "message": "schemaId updated in CredentialsType",
+                      "data": {
+                        "id": "d6ef2d010",
+                        "type": "principalMemberCredential",
+                        "schemaId": "7KuDTpQh3GJ7Gp6kErpWvM:2:principalTestSchema:1.0"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Not Found": {
+                    "value": {
+                      "status": 404,
+                      "message": "Not Found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error.": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:27.897Z",
+                      "message": "Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Credentials"
+        ]
+      }
+    },
+    "/v1/credentialType": {
+      "post": {
+        "operationId": "AttestationController_createCredentialType",
+        "summary": "Create new CredentialType",
+        "description": "This call provides the capability to create mapping between schema and type.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CredentialTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "schemaId added in CredentialsType of membership credentials.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "schemaId added in CredentialsType of membership credentials.": {
+                    "value": {
+                      "statusCode": 201,
+                      "message": "schemaId added in CredentialsType of membership credentials.",
+                      "data": {
+                        "id": "d6ef2d01",
+                        "type": "principalMemberCredential",
+                        "schemaId": "7KuDTpQh3GJ7Gp6kErpWvM:2:principalTestSchema:1.0"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error.": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:27.897Z",
+                      "message": "Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Credentials"
+        ]
+      },
+      "get": {
+        "operationId": "AttestationController_getCredentialTypeAttributes",
+        "summary": "Fetch CredentialType contains schemaId and attributes by type",
+        "description": "This call provides the capability to get schema id and its attributes by provided type",
+        "parameters": [
+          {
+            "name": "type",
+            "required": true,
+            "in": "query",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Credential type retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Credential type retrieved successfully": {
+                    "value": {
+                      "schema": {
+                        "schemaID": "7KuDTpQh3GJ7Gp6kErpWvM:2:principalTestSchema:1.0",
+                        "attribute": [
+                          "prcPreferredUsername",
+                          "issuerDID",
+                          "prcGender",
+                          "prcBirthdate",
+                          "expirationDate",
+                          "prcLastName",
+                          "prcFirstName",
+                          "email",
+                          "prcMiddleName",
+                          "subjectDID",
+                          "auth_time",
+                          "email_verified"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Credential type not found",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Credential type not found": {}
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error.": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:27.897Z",
+                      "message": "Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Credentials"
+        ]
+      }
+    },
+    "/v1/credentialDef": {
+      "get": {
+        "operationId": "CredentialDefController_findCredentialDef",
+        "summary": "Fetch a list of credential definitions",
+        "description": "This call provides the capability to search created credential definitions by using pagination and filter parameter (schemaID) to select credential definitions. This call returns a list of credential definitions and overall count of records. Using a credential definition from that list you can issue credential so some connection",
+        "parameters": [
+          {
+            "name": "schemaID",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Credential definitions fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Credential definitions fetched successfully": {
+                    "value": {
+                      "statusCode": 200,
+                      "message": "Credential definitions fetched successfully",
+                      "data": {
+                        "count": 2,
+                        "records": [
+                          {
+                            "id": "1234abcd",
+                            "schemaID": "loremipsum:test-01-01:1.0",
+                            "name": "test-01-01",
+                            "credDefId": "test-cred-def123",
+                            "isAutoIssue": false,
+                            "isRevokable": false,
+                            "expiryHours": "24",
+                            "createdBy": "acceptsAnyString",
+                            "createdDate": "1970-01-01T00:00:28.343Z",
+                            "updatedBy": "",
+                            "updatedDate": "1970-01-01T00:00:28.343Z"
+                          },
+                          {
+                            "id": "5678abcd",
+                            "schemaID": "loremipsum2:test2-01-01:1.0",
+                            "name": "test2-01-01",
+                            "credDefId": "test2-cred-def123",
+                            "isAutoIssue": false,
+                            "isRevokable": false,
+                            "expiryHours": "24",
+                            "createdBy": "acceptsAnyString",
+                            "createdDate": "1970-01-01T00:00:28.343Z",
+                            "updatedBy": "",
+                            "updatedDate": "1970-01-01T00:00:28.343Z"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Data found.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "No Data found.": {
+                    "value": {
+                      "statusCode": 404,
+                      "message": "No Data found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error.": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:27.897Z",
+                      "message": "Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Credential Definitions"
+        ]
+      },
+      "post": {
+        "operationId": "CredentialDefController_createCredentialDef",
+        "summary": "Create a new credential definition",
+        "description": "This call provides the capability to create new credential definition by providing schema id, name, createdBy, auto-issue and other information required by this method. This call returns an object contains information abut this credential definition (type CredentialDefDto). You can use this credential definition to issue credentials to some connection",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CredentialDefDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Credential definition created successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Credential definition created successfully": {
+                    "value": {
+                      "statusCode": 201,
+                      "message": "Credential definition created successfully",
+                      "data": {
+                        "id": "71b784a3",
+                        "schemaID": "7KuDTpQh3:test-schema",
+                        "name": "test",
+                        "credDefId": "7KuDTpQh3:test",
+                        "isAutoIssue": false,
+                        "isRevokable": false,
+                        "expiryHours": "23",
+                        "createdBy": "vocm",
+                        "createdDate": "1970-01-01T00:00:28.343Z",
+                        "updatedBy": "",
+                        "updatedDate": "1970-01-01T00:00:28.343Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Credential definition required following attributes ( schemaID, name, isRevokable, isAutoIssue, createdBy, expiryHours )",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Credential definition required following attributes ( schemaID, name, isRevokable, isAutoIssue, createdBy, expiryHours )": {
+                    "value": {
+                      "statusCode": 400,
+                      "message": "Credential definition required following attributes ( schemaID, name, isRevokable, isAutoIssue, createdBy, expiryHours )"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Credential definition already exists",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Credential definition already exists": {
+                    "value": {
+                      "statusCode": 409,
+                      "message": "Credential definition already exists"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error.": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:27.897Z",
+                      "message": "Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Credential Definitions"
+        ]
+      }
+    },
+    "/v1/credentialDef/{id}": {
+      "get": {
+        "operationId": "CredentialDefController_findCredentialDefById",
+        "summary": "Fetch credential definition by id",
+        "description": "This call provides the capability to get credential definition data by providing id of credential definition. The credential definition data is the same which is returned from /v1/connections endpoint and contains generic information about credential definition like schemaID, name, credDefId, isAutoIssue, isRevokable, expiryHours, createdBy, createdDate, updatedBy, updatedDate",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Pass Cred Def id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Credential definition fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Credential definition fetched successfully": {
+                    "value": {
+                      "statusCode": 200,
+                      "message": "Credential definition fetched successfully",
+                      "data": {
+                        "count": 1,
+                        "records": [
+                          {
+                            "id": "1234abcd",
+                            "schemaID": "loremipsum:test-01-01:1.0",
+                            "name": "test-01-01",
+                            "credDefId": "test-cred-def123",
+                            "isAutoIssue": false,
+                            "isRevokable": false,
+                            "expiryHours": "24",
+                            "createdBy": "acceptsAnyString",
+                            "createdDate": "1970-01-01T00:00:28.343Z",
+                            "updatedBy": "",
+                            "updatedDate": "1970-01-01T00:00:28.343Z"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Data found",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "No Data found": {
+                    "value": {
+                      "statusCode": 404,
+                      "message": "No Data found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error.": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:27.897Z",
+                      "message": "Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Credential Definitions"
+        ]
+      }
+    },
+    "/v1/userInfo": {
+      "post": {
+        "operationId": "UserInfoController_createUserInfo",
+        "summary": "Add user information to a connection",
+        "description": "This call provides the capability to add any additional information to connection. The format of added data is just a simple json",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInfoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "userInfo (to be deprecated)"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Gaia-x Attestation Manager API",
+    "description": "API documentation for GAIA-X Attestation Manager",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "SchemaDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "attributes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "createdBy",
+          "version",
+          "attributes"
+        ]
+      },
+      "CredentialPreviewAttributes": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "value"
+        ]
+      },
+      "OfferCredentialDto": {
+        "type": "object",
+        "properties": {
+          "connectionId": {
+            "type": "string"
+          },
+          "credentialDefinitionId": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "attributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CredentialPreviewAttributes"
+            }
+          },
+          "autoAcceptCredential": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "connectionId",
+          "credentialDefinitionId",
+          "comment",
+          "attributes",
+          "autoAcceptCredential"
+        ]
+      },
+      "ProposeCredentialDto": {
+        "type": "object",
+        "properties": {
+          "connectionId": {
+            "type": "string"
+          },
+          "credentialDefinitionId": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "credentialProposal": {
+            "type": "object"
+          },
+          "autoAcceptCredential": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "connectionId",
+          "credentialDefinitionId",
+          "comment",
+          "credentialProposal",
+          "autoAcceptCredential"
+        ]
+      },
+      "UpdateSchemaIdByTypeDto": {
+        "type": "object",
+        "properties": {
+          "schemaId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "schemaId"
+        ]
+      },
+      "CredentialTypeDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "schemaId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "schemaId"
+        ]
+      },
+      "CredentialDefDto": {
+        "type": "object",
+        "properties": {
+          "schemaID": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "isRevokable": {
+            "type": "boolean"
+          },
+          "isAutoIssue": {
+            "type": "boolean"
+          },
+          "expiryHours": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "schemaID",
+          "name",
+          "isRevokable",
+          "isAutoIssue",
+          "expiryHours",
+          "createdBy"
+        ]
+      },
+      "UserInfoDto": {
+        "type": "object",
+        "properties": {
+          "connectionId": {
+            "type": "string"
+          },
+          "autoAcceptCredential": {
+            "type": "string"
+          },
+          "userInfo": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        "required": [
+          "connectionId",
+          "autoAcceptCredential",
+          "userInfo"
+        ]
+      }
+    }
+  }
+}

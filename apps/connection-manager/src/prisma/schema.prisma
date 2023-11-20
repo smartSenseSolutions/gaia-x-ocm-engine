@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Connection {
+  id             String   @id @default(uuid())
+  connectionId   String   @unique @map("connection_id")
+  status         String
+  participantDid String   @unique @map("participant_did")
+  theirDid       String   @map("their_did")
+  theirLabel     String   @map("their_label")
+  createdDate    DateTime @default(now()) @map("created_date")
+  updatedDate    DateTime @default(now()) @map("updated_date")
+  isActive       Boolean  @default(true)  @map("is_active")
+  isReceived     Boolean  @map("is_received")
+}
+
+model ShortUrlConnection {
+  id             String   @id @default(uuid())
+  connectionUrl  String
+}

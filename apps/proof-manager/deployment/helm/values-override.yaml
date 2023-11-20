@@ -1,0 +1,61 @@
+replicaCount: 1
+
+image:
+  repository: ""
+  name: ocm-engine-proof-manager
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+resources:
+  requests:
+    cpu: 25m
+    memory: 64Mi
+  limits:
+    cpu: 150m
+    memory: 128Mi
+
+
+metrics:
+  enabled: false
+
+log:
+  level: "INFO"
+  encoding: json
+
+service:
+  port: 3007
+
+proofManager:
+  acceptPresentationConfig: AUTO
+  protocol: https
+  urlPath: gaiax-ocm-engine.proofsense.in/proof
+  agent:
+    host: ssi-abstraction.ocm-engine
+    protocol: http
+    port: 3010
+    didCommPort: 3009
+  database:
+    host: postgres.default
+    user: smartsense-gaia-x
+    password: mie4OVahpoochai6
+    port: 5432
+    schema: proof
+    db: postgres
+  nats:
+    url: nats.ocm-engine
+    port: 4222
+    protocol: nats
+  elastic:
+    url: ""
+    port: 9200
+    protocol: http
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  tlsEnabled: true
+  frontendDomain: gaiax-ocm-engine.proofsense.in
+  frontendTlsSecretName: ssi-abstraction-tls
+  pathOverride: proof-manager

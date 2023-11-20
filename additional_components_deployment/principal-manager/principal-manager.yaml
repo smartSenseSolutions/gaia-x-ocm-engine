@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: principal-manager
+  namespace: ocm-engine
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: principal-manager
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      name: principal-manager
+      labels:
+        app: principal-manager
+    spec:
+      containers:
+      - env:
+        - name: PORT
+          value: "3008"
+        - name: DATABASE_URL
+          value: postgresql://smartsense-gaia-x:mie4OVahpoochai6@postgres.default:5432/postgres?schema=principal
+        - name: ECSURL
+          value: http://:9200/
+        - name: CONNECTION_MANAGER_URL
+          value: http://connection-manager.ocm-engine:3003
+        - name: ATTESTATION_MANAGER_URL
+          value: http://attestation-manager.ocm-engine:3003
+        - name: NATS_URL
+          value: nats://nats.ocm-engine:4222
+        image: ocm-engine-principal-manager:latest
+        imagePullPolicy: IfNotPresent
+        name: principal-manager
+        ports:
+        - containerPort: 3008
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 2
+          httpGet:
+            path: /v1/health
+            port: 3008
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 2
+          timeoutSeconds: 5
+        resources:
+          limits:
+            cpu: 150m
+            memory: 128Mi
+          requests:
+            cpu: 25m
+            memory: 64Mi
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: principal-manager
+  namespace: ocm-engine
+spec:
+  selector:
+    app: principal-manager
+  clusterIP: None
+  ports:
+    - name: http
+      port: 3008

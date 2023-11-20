@@ -1,0 +1,17 @@
+{
+  "name": "ocm-engine",
+  "author": "Vereign AG",
+  "packageManager": "yarn@3.6.3",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "prisma:generate": "pnpm -r prisma:generate",
+    "attestation:build": "pnpm -F attestation-manager build",
+    "connection:build": "pnpm -F connection-manager build",
+    "principal:build": "pnpm -F principal-manager build",
+    "proof:build": "pnpm -F proof-manager build",
+    "ssi:build": "pnpm -F ssi-abstraction build"
+  }
+}

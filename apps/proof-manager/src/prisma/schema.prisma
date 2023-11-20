@@ -1,0 +1,26 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Proof {
+  id                String   @id @default(uuid())
+  proofRecordId    String   @unique @map("proof_record_id")
+  connectionId      String   @default("") @map("connection_id")
+  credentialDefId   String   @default("") @map("credential_def_id")
+  schemaId          String   @default("") @map("schema_id")
+  theirDid          String   @default("") @map("their_did")
+  status            String   @default("")
+  createdDate       DateTime @default(now()) @map("created_date")
+  updatedDate       DateTime @default(now()) @map("updated_date")
+}
+
+model ShortUrl {
+  id             String   @id @default(uuid())
+  originalUrl  String
+}

@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aries-mediator
+  namespace: ocm-engine
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: aries-mediator
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      name: aries-mediator
+      labels:
+        app: aries-mediator
+    spec:
+      containers:
+      - env:
+        - name: ACAPY_WALLET_STORAGE_CONFIG
+          value: '{"url":"postgres.default:5432","wallet_scheme":"DatabasePerWallet"}'
+        - name: ACAPY_WALLET_STORAGE_CREDS
+          value: '{"account":"smartsense-gaia-x","password":"mie4OVahpoochai6","admin_account":"smartsense-gaia-x","admin_password":"mie4OVahpoochai6"}'
+        - name: ACAPY_WALLET_NAME
+          value: "mediator"
+        - name: ACAPY_WALLET_KEY
+          value: "testing"
+        - name: MEDIATOR_AGENT_HTTP_IN_PORT
+          value: "3000"
+        - name: MEDIATOR_AGENT_WS_IN_PORT
+          value: "3001"
+        - name: MEDIATOR_AGENT_HTTP_ADMIN_PORT
+          value: "3002"
+        - name: MEDIATOR_AGENT_ADMIN_MODE
+          value: "admin-api-key 7gdmVBiJalMj52Oum50yD8neu/nxmv3/DTWcZPyKZ4K2UdNNwSPKgg=="
+        - name: MEDIATOR_AGENT_LABEL
+          value: "Mediator"
+        - name: MEDIATOR_HTTP_IN_ENDPOINT_URL
+          value: "https://gaiax-ocm-engine.proofsense.in/caddy-agent"
+        - name: MEDIATOR_WSS_ENDPOINT_URL
+          value: "gaiax-ocm-engine.proofsense.in/mediator-wss"
+        - name: MEDIATOR_ARG_FILE
+          value: "./configs/mediator-auto-accept.yml"
+        - name: MEDIATOR_AGENT_ADMIN_API_KEY
+          value: "insecure-hello-world-2"
+        - name: MEDIATOR_ALIAS
+          value: "MOON"
+        - name: LOG_LEVEL
+          value: "info"
+        image: ocm-engine-aries-mediator:latest
+        imagePullPolicy: IfNotPresent
+        name: aries-mediator
+        ports:
+        - containerPort: 3000
+          name: http
+          protocol: TCP
+        - containerPort: 3001
+          name: ws
+          protocol: TCP
+        - containerPort: 3002
+          name: http-admin
+          protocol: TCP
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: aries-mediator
+  namespace: ocm-engine
+spec:
+  selector:
+    app: aries-mediator
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 3000
+    - name: ws
+      port: 3001
+    - name: http-admin
+      port: 3002

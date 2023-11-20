@@ -1,0 +1,1003 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/health": {
+      "get": {
+        "operationId": "HealthController_getHealth",
+        "summary": "Health check",
+        "description": "This call provides the capability to check the service is working and up. The call returns 200 Status Code and current server time in json body",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Service is up and running.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Service is up and running.": {
+                    "value": {
+                      "statusCode": 200,
+                      "message": "Thu Jan 01 1970 00:00:00 GMT+0000 (Coordinated Universal Time)"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/find-proof-presentation": {
+      "get": {
+        "operationId": "PresentationProofsController_findProofPresentation",
+        "summary": "Fetch list of proof requests",
+        "description": "This call provides the capability to search proofs (Credential Presentation) by using pagination and filter parameters. This call returns a list of proof requests (Proof Presentations) and overall count of records. Filter supports following parameters: page, pageSize, proofRecordId, connectionId, credentialDefId, schemaId, theirDid, status, createdDateStart, createdDateEnd, updatedDateStart, updatedDateEnd",
+        "parameters": [
+          {
+            "name": "updatedDateEnd",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "updatedDateStart",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "createdDateEnd",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "createdDateStart",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "theirDid",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "schemaId",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "credentialDefId",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "connectionId",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "proofRecordId",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proof presentations fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Proof presentations fetched successfully": {
+                    "value": {
+                      "statusCode": 200,
+                      "message": "Proof presentations fetched successfully",
+                      "data": {
+                        "count": 1,
+                        "records": [
+                          {
+                            "id": "30774a7e",
+                            "proofRecordId": "9b4ab922",
+                            "connectionId": "",
+                            "credentialDefId": "",
+                            "schemaId": "",
+                            "theirDid": "",
+                            "status": "request-sent",
+                            "createdDate": "1970-01-01T00:00:00.642Z",
+                            "updatedDate": "1970-01-01T00:00:00.642Z"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Data found",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "No Data found": {
+                    "value": {
+                      "statusCode": 404,
+                      "message": "No Data found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Proofs"
+        ]
+      }
+    },
+    "/v1/find-by-presentation-id": {
+      "get": {
+        "operationId": "PresentationProofsController_findProofByProofRecordId",
+        "summary": "Fetch proof presentation by proofRequestId",
+        "description": "This call provides the capability to get proof request by providing proofRecordId (presentationId). The call returns an information about proof request and also (if user accepted proof request) information about requested user credentials",
+        "parameters": [
+          {
+            "name": "proofRecordId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proof presentation fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Proof presentation fetched successfully": {
+                    "value": {
+                      "statusCode": 200,
+                      "message": "Proof presentation fetched successfully",
+                      "data": {
+                        "state": "request-sent",
+                        "presentations": [
+                          {
+                            "schemaId": "",
+                            "credDefId": "",
+                            "revRegId": "",
+                            "timestamp": "",
+                            "credentialSubject": {}
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Find presentation request required following attributes: ( proofRecordId )",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Find presentation request required following attributes: ( proofRecordId )": {
+                    "value": {
+                      "statusCode": 400,
+                      "message": "Find presentation request required following attributes: ( proofRecordId )"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Data found",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "No Data found": {
+                    "value": {
+                      "statusCode": 404,
+                      "message": "No Data found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Proofs"
+        ]
+      }
+    },
+    "/v1/send-presentation-request": {
+      "post": {
+        "operationId": "PresentationProofsController_sendPresentationRequest",
+        "summary": "Send presentation request",
+        "description": "This call provides the capability to create a new presentation request bound to existing connection. It is mandatory to provide a schema for every requested attribute and attribute name in the body information of the connection. The call returns an information about proof request (proofRecordId, connectionId, credentialDefId, schemaId, theirDid, status, createdDate, updatedDate, threadId)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendProofRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Presentation request sent successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Presentation request sent successfully": {
+                    "value": {
+                      "statusCode": 201,
+                      "message": "Presentation request sent successfully",
+                      "data": {
+                        "id": "a7ccc2f7",
+                        "proofRecordId": "fb556018-1907-47c1-a6d6-c7cbca7d23b4",
+                        "connectionId": "a9371aed-67ed-4448-ace0-d773e7b30e1c",
+                        "credentialDefId": "",
+                        "schemaId": "",
+                        "theirDid": "",
+                        "status": "request-sent",
+                        "createdDate": "2023-03-02T13:02:43.656Z",
+                        "updatedDate": "2023-03-02T13:02:43.656Z",
+                        "threadId": "75045c1b-f0ef-4f10-831e-4e4f301333af"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Find presentation request required following attributes: ( proofRecordId )",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Find presentation request required following attributes: ( proofRecordId )": {
+                    "value": {
+                      "statusCode": 400,
+                      "message": "Find presentation request required following attributes: ( proofRecordId )"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Proofs"
+        ]
+      }
+    },
+    "/v1/send-out-of-band-presentation-request": {
+      "post": {
+        "operationId": "PresentationProofsController_sendOutOfBandPresentationRequest",
+        "summary": "Send out of band presentation request",
+        "description": "This call provides the capability to create a new presentation request not bound to any proposal or existing connection. The call returns an information about presentation request",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendProofRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Presentation request sent successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Presentation request sent successfully": {
+                    "value": {
+                      "statusCode": 201,
+                      "message": "Presentation request sent successfully",
+                      "data": {
+                        "id": "d6667caa",
+                        "proofRecordId": "600dd422",
+                        "connectionId": "",
+                        "credentialDefId": "",
+                        "schemaId": "",
+                        "theirDid": "",
+                        "status": "request-sent",
+                        "createdDate": "1970-01-01T00:00:00.934Z",
+                        "updatedDate": "1970-01-01T00:00:00.934Z",
+                        "presentationMessage": "https://serviceEndpointUrl.com:443/ocm/didcomm/?d_m=eyJAdHlwZSI6I",
+                        "presentationMessageShort": "https://selfUrl.com/v1/url/1234abcd"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Send presentation request required following attributes( attributes, schemaId or credentialDefinitionId )",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Send presentation request required following attributes( attributes, schemaId or credentialDefinitionId )": {
+                    "value": {
+                      "statusCode": 400,
+                      "message": "Send presentation request required following attributes( attributes, schemaId or credentialDefinitionId )"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Proofs"
+        ]
+      }
+    },
+    "/v1/out-of-band-proof": {
+      "post": {
+        "operationId": "PresentationProofsController_outOfBandProof",
+        "summary": "Send out of band proof",
+        "description": "This call provides the capability to create a new presentation request not bound to any proposal or existing connection but it creates just on type defined in attestation manager (type is bound to schema id there). The call returns an information about presentation request",
+        "parameters": [
+          {
+            "name": "type",
+            "required": true,
+            "in": "query",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Presentation request sent successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Presentation request sent successfully": {
+                    "value": {
+                      "statusCode": 201,
+                      "message": "Presentation request sent successfully",
+                      "data": {
+                        "id": "60f38aa4",
+                        "proofRecordId": "852ee278",
+                        "connectionId": "",
+                        "credentialDefId": "",
+                        "schemaId": "",
+                        "theirDid": "",
+                        "status": "request-sent",
+                        "createdDate": "2023-03-02T13:12:38.934Z",
+                        "updatedDate": "2023-03-02T13:12:38.934Z",
+                        "presentationMessage": "https://serviceEndpointUrl.com:443/ocm/didcomm/?d_m=eyJAdHlwZSI6Imh0dHBzOi8",
+                        "presentationMessageShort": "https://selfUrl/v1/url/1234abcd"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Could not get schema details. please try again.",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Could not get schema details. please try again.": {
+                    "value": {
+                      "statusCode": 400,
+                      "message": "Could not get schema details. please try again."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Proofs"
+        ]
+      }
+    },
+    "/v1/accept-presentation/{proofRecordId}": {
+      "post": {
+        "operationId": "PresentationProofsController_acceptPresentation",
+        "summary": "Accept presentation request by proofRecordId",
+        "description": "Accept a presentation as prover (by sending a presentation acknowledgement message) to the connection associated with the proof record.",
+        "parameters": [
+          {
+            "name": "proofRecordId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Presentation accepted successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Presentation accepted successfully": {
+                    "value": {}
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Accept presentation request required following attributes ( proof_record_id )",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Accept presentation request required following attributes ( proof_record_id )": {
+                    "value": {
+                      "statusCode": 400,
+                      "message": "Accept presentation request required following attributes ( proof_record_id )"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:00.891Z",
+                      "message": "Something went wrong: Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Proofs"
+        ]
+      }
+    },
+    "/v1/accept-proof-request/{proofRecordId}": {
+      "post": {
+        "operationId": "PresentationProofsController_acceptProofRequest",
+        "summary": "Accept proof request by proofRecordId",
+        "description": "Accept a presentation request as prover (by sending a presentation message) to the connection associated with the proof record.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request accepted successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Request accepted successfully": {
+                    "value": {
+                      "statusCode": 200,
+                      "message": "Request accepted successfully",
+                      "data": {
+                        "_tags": {
+                          "threadId": "6b5c57b3",
+                          "state": "request-received",
+                          "connectionId": "653b8cdc"
+                        },
+                        "metadata": {},
+                        "id": "19c5269f",
+                        "createdAt": "1970-01-01T00:00:00.498Z",
+                        "requestMessage": {
+                          "@type": "https://didcomm.org/present-proof/1.0/request-presentation",
+                          "@id": "6b5c57b3",
+                          "comment": "Proof Presenation",
+                          "request_presentations~attach": [
+                            {
+                              "@id": "libindy-request-presentation-0",
+                              "mime-type": "application/json",
+                              "data": {
+                                "base64": "eyJuYW="
+                              }
+                            }
+                          ]
+                        },
+                        "state": "presentation-sent",
+                        "connectionId": "653b8cdc",
+                        "threadId": "6b5c57b3",
+                        "presentationMessage": {
+                          "@type": "https://didcomm.org/present-proof/1.0/presentation",
+                          "@id": "c1089096",
+                          "presentations~attach": [
+                            {
+                              "@id": "libindy-presentation-0",
+                              "mime-type": "application/json",
+                              "data": {
+                                "base64": "eyJwcm9vZ"
+                              }
+                            }
+                          ],
+                          "~thread": {
+                            "thid": "6b5c57b3"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Accept proof request required following attributes ( proofRecordId )",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Accept proof request required following attributes ( proofRecordId )": {
+                    "value": {
+                      "statusCode": 400,
+                      "timestamp": "1970-01-01T00:00:00.891Z",
+                      "message": "Accept proof request required following attributes ( proofRecordId )"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:00.891Z",
+                      "message": "Something went wrong: Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Proofs"
+        ]
+      }
+    },
+    "/v1/delete-proof-request/{proofRecordId}": {
+      "post": {
+        "operationId": "PresentationProofsController_deleteProofRequest",
+        "summary": "Delete proof request by proofRecordId",
+        "description": "Deletes a proofRecord in the proof repository.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Delete proof request",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Delete proof request": {
+                    "value": {
+                      "statusCode": 200,
+                      "message": "Proof request deleted successfully",
+                      "data": ""
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Delete proof request required following attributes ( proofRecordId )",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Delete proof request required following attributes ( proofRecordId )": {
+                    "value": {
+                      "statusCode": 400,
+                      "timestamp": "1970-01-01T00:00:00.891Z",
+                      "message": "Delete proof request required following attributes ( proofRecordId )"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:00.891Z",
+                      "message": "Something went wrong: Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Proofs"
+        ]
+      }
+    },
+    "/v1/decline-proof-request/{proofRecordId}": {
+      "post": {
+        "operationId": "PresentationProofsController_declineProofRequest",
+        "summary": "Decline proof request by proofRecordId",
+        "description": "Decline proof request as prover (by sending a presentation message) to the connection associated with the proof record.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request declined successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Request declined successfully": {
+                    "value": {
+                      "statusCode": 200,
+                      "message": "Request declined successfully",
+                      "data": {
+                        "_tags": {
+                          "threadId": "6b5c57b3",
+                          "state": "request-received",
+                          "connectionId": "653b8cdc"
+                        },
+                        "metadata": {},
+                        "id": "19c5269f",
+                        "createdAt": "1970-01-01T00:00:00.498Z",
+                        "requestMessage": {
+                          "@type": "https://didcomm.org/present-proof/1.0/request-presentation",
+                          "@id": "6b5c57b3",
+                          "comment": "Proof Presenation",
+                          "request_presentations~attach": [
+                            {
+                              "@id": "libindy-request-presentation-0",
+                              "mime-type": "application/json",
+                              "data": {
+                                "base64": "eyJuYW="
+                              }
+                            }
+                          ]
+                        },
+                        "state": "presentation-sent",
+                        "connectionId": "653b8cdc",
+                        "threadId": "6b5c57b3",
+                        "presentationMessage": {
+                          "@type": "https://didcomm.org/present-proof/1.0/presentation",
+                          "@id": "c1089096",
+                          "presentations~attach": [
+                            {
+                              "@id": "libindy-presentation-0",
+                              "mime-type": "application/json",
+                              "data": {
+                                "base64": "eyJwcm9vZ"
+                              }
+                            }
+                          ],
+                          "~thread": {
+                            "thid": "6b5c57b3"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Accept proof request required following attributes ( proofRecordId )",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Accept proof request required following attributes ( proofRecordId )": {
+                    "value": {
+                      "statusCode": 400,
+                      "timestamp": "1970-01-01T00:00:00.891Z",
+                      "message": "Accept proof request required following attributes ( proofRecordId )"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:00.891Z",
+                      "message": "Something went wrong: Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Proofs"
+        ]
+      }
+    },
+    "/v1/agent-proofs": {
+      "get": {
+        "operationId": "PresentationProofsController_getAllProofRequest",
+        "summary": "Fetch all proofs directly from the agent",
+        "description": "This call provides the capability to get all proof records directly from agent. Pagination and sorting does not implemented in that version of Aries Framework Javascript",
+        "parameters": [
+          {
+            "name": "threadId",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proofs fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Proofs fetched successfully": {
+                    "value": {
+                      "statusCode": 200,
+                      "message": "Proofs fetched successfully",
+                      "data": [
+                        {
+                          "_tags": {
+                            "threadId": "75045c1b",
+                            "state": "request-received",
+                            "connectionId": "e6d30380"
+                          },
+                          "metadata": {},
+                          "id": "6f776996",
+                          "createdAt": "1970-01-01T00:00:00.640Z",
+                          "requestMessage": {
+                            "@type": "https://didcomm.org/present-proof/1.0/request-presentation",
+                            "@id": "75045c1b",
+                            "comment": "Proof Presenation",
+                            "request_presentations~attach": [
+                              {
+                                "@id": "libindy-request-presentation-0",
+                                "mime-type": "application/json",
+                                "data": {
+                                  "base64": "eyJ"
+                                }
+                              }
+                            ]
+                          },
+                          "state": "request-received",
+                          "connectionId": "e6d30380",
+                          "threadId": "75045c1b"
+                        },
+                        {
+                          "_tags": {
+                            "connectionId": "a9371aed",
+                            "state": "request-sent",
+                            "threadId": "75045c1b"
+                          },
+                          "metadata": {},
+                          "id": "fb556018",
+                          "createdAt": "1970-01-01T00:00:00.568Z",
+                          "requestMessage": {
+                            "@type": "https://didcomm.org/present-proof/1.0/request-presentation",
+                            "@id": "75045c1b",
+                            "comment": "Proof Presenation",
+                            "request_presentations~attach": [
+                              {
+                                "@id": "libindy-request-presentation-0",
+                                "mime-type": "application/json",
+                                "data": {
+                                  "base64": "eyJ"
+                                }
+                              }
+                            ]
+                          },
+                          "state": "request-sent",
+                          "connectionId": "a9371aed",
+                          "threadId": "75045c1b"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "Internal Server Error": {
+                    "value": {
+                      "statusCode": 500,
+                      "timestamp": "1970-01-01T00:00:00.891Z",
+                      "message": "Something went wrong: Lorem Ipsum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Proofs"
+        ]
+      }
+    },
+    "/v1/url/{id}": {
+      "get": {
+        "operationId": "PresentationProofsController_redirectToOriginalUrl",
+        "summary": "Get full url from short url id",
+        "description": "Get full url from short url id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Proofs"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Gaia-x Proof Manager API",
+    "description": "API documentation for GAIA-X Proof Manager",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "SendProofRequest": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "string",
+            "example": "comments"
+          },
+          "connectionId": {
+            "type": "string",
+            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          },
+          "attributes": {
+            "example": [
+              {
+                "attributeName": "attributeName",
+                "schemaId": "schemaId",
+                "credentialDefId": "credentialDefId"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "comment",
+          "connectionId",
+          "attributes"
+        ]
+      },
+      "SendProofRequestBody": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "string",
+            "example": "comments"
+          },
+          "schemaId": {
+            "type": "string",
+            "example": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag"
+          },
+          "options": {
+            "type": "object",
+            "example": {
+              "type": "Aries1.0",
+              "credentialDefinitionId": "credentialDefinitionId"
+            }
+          },
+          "attributes": {
+            "example": [
+              "attributeName"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "comment",
+          "schemaId",
+          "options",
+          "attributes"
+        ]
+      }
+    }
+  }
+}

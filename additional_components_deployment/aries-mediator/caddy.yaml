@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: caddy
+  namespace: ocm-engine
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: caddy
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      name: caddy
+      labels:
+        app: caddy
+    spec:
+      volumes:
+        - name: caddy-config
+          hostPath:
+            path: /home/ubuntu/k8s/ocm-engine/ocm-engine/compose/aries-mediator-service/caddy
+            type: Directory
+      containers:
+      - name: caddy
+        image: caddy
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 2015
+          name: http
+          protocol: TCP
+        volumeMounts:
+         - name: caddy-config
+           mountPath: /etc/caddy/Caddyfile
+           subPath: Caddyfile
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: caddy
+  namespace: ocm-engine
+spec:
+  selector:
+    app: caddy
+  type: NodePort
+  ports:
+    - name: http
+      port: 2015
+      nodePort: 30021
