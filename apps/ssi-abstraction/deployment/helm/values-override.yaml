@@ -39,7 +39,7 @@ ssiAbstraction:
     wallet:
       key: ssi-wallet-key
       id: ssi-wallet-id
-    ledgerId: BCOVRIN_TEST
+    ledgerId: BCOVRIN_TEST,BCOVRIN_PROD
     unionKey: example-example-example-example
   afjExtPort: 3010
   database:
