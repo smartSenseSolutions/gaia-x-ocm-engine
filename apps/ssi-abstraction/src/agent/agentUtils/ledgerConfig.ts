@@ -31,7 +31,7 @@ export type LedgerIds = keyof typeof LEDGER_GENESIS;
 
 export const ledgerNamespaces = {
   ID_UNION: 'idunion',
-  BCOVRIN_TEST: 'sovrin:test',
+  BCOVRIN_TEST: 'sovrin',
   GREEN_LIGHT: 'sovrin',
 };
 
