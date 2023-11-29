@@ -62,6 +62,7 @@ export default class AttestationService {
   ) {
     // TODO is it a correct conditions here? Should not be just isTrustedConnectionRequired?
     if (!isTrustedConnectionRequired) {
+      console.log('inside create check');
       const connection = await this.getConnectionByID(
         credentialRequest.connectionId,
       );
@@ -73,6 +74,8 @@ export default class AttestationService {
       }
     }
 
+    console.log('outside create check');
+
     const agentUrl = this.configService.get('agent.AGENT_URL');
     const credentialRequestObj = { ...credentialRequest };
 
@@ -80,18 +83,24 @@ export default class AttestationService {
       credentialRequestObj.credentialDefinitionId,
     );
 
+    console.log(credDef, 'credDef');
+
     const expirationDate = Utils.calculateExpiry(credDef.expiryHours);
 
     if (expirationDate) {
+      console.log(expirationDate);
       credentialRequestObj.attributes.push({
         name: 'expirationDate',
         value: expirationDate.toString(),
       });
     }
 
+    console.log(credentialRequestObj);
+
     const schemaDetails = await this.getSchemaAndAttributesBySchemaIDFromLedger(
       credDef.schemaID,
     );
+
     logger.info(
       `schemaDetails?.attrNames?.length ${schemaDetails?.attrNames?.length}`,
     );
@@ -104,6 +113,8 @@ export default class AttestationService {
     ) {
       throw new BadRequestException('Invalid attributes');
     }
+
+    console.log(schemaDetails);
 
     logger.info(`offer-credential payload: ${credentialRequestObj}`);
 
@@ -125,6 +136,7 @@ export default class AttestationService {
           credentialRequestPayload,
         )}`,
       );
+      console.log(credentialRequestPayload, 'credpayload');
 
       const responseData = await this.restClient.post(
         `${agentUrl}/credentials/offer-credential`,
@@ -133,6 +145,7 @@ export default class AttestationService {
       logger.info(responseData);
       return responseData;
     } catch (error) {
+      console.log(error);
       logger.error(JSON.stringify(error));
       throw new Error(JSON.stringify(error));
     }
