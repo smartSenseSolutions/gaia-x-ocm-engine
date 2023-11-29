@@ -21,7 +21,13 @@ import {
 } from '@nestjs/common';
 import AttestationService from '@src/issue-credential/services/service';
 import { ResponseType } from '@src/common/response';
-import {ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags} from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import CredentialStateDto from '@issueCredential/entities/credential.state.entity';
 import GetIssueCredentialsDto from '@src/issue-credential/entities/get-issue-credentials.dto';
 import GetCredentialParams from '@issueCredential/entities/get.credential.params';
@@ -60,7 +66,8 @@ export default class AttestationController {
   @Post('create-offer-credential')
   @ApiOperation({
     summary: 'Send credential offer to a connection',
-    description: 'This call provides the capability to offer credentials to a connection. You need to provide information about credential definition, connection and attributes which will be send to connection. Initial state of this is offer-sent (workflow is here https://github.com/hyperledger/aries-rfcs/tree/main/features/0036-issue-credential). This call returns information about this credential offer. From user perspective this call means that as organization (e.g. Faber university) I want to start issuing crendentials to student (Alice, holder)'
+    description:
+      'This call provides the capability to offer credentials to a connection. You need to provide information about credential definition, connection and attributes which will be send to connection. Initial state of this is offer-sent (workflow is here https://github.com/hyperledger/aries-rfcs/tree/main/features/0036-issue-credential). This call returns information about this credential offer. From user perspective this call means that as organization (e.g. Faber university) I want to start issuing crendentials to student (Alice, holder)',
   })
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -267,6 +274,7 @@ export default class AttestationController {
 
       return response.send(res);
     } catch (error) {
+      console.log(error);
       throw new InternalServerErrorException(error);
     }
   }
@@ -276,7 +284,8 @@ export default class AttestationController {
   @Post('create-propose-credential')
   @ApiOperation({
     summary: 'Send credential proposal to a connection',
-    description: 'This call provides the capability to send propose crendential request to a connection. You need to provide information about credential definition, connection and attributes which you want to use for creating credentials. Initial state of this is proposal-sent (workflow is here https://github.com/hyperledger/aries-rfcs/tree/main/features/0036-issue-credential). This call returns information about this credential proposal. From user perspective this call means that as user (e.g. student) I want to ask organization (e.g. Faber university) to initiate issuing credentials for me using provided data'
+    description:
+      'This call provides the capability to send propose crendential request to a connection. You need to provide information about credential definition, connection and attributes which you want to use for creating credentials. Initial state of this is proposal-sent (workflow is here https://github.com/hyperledger/aries-rfcs/tree/main/features/0036-issue-credential). This call returns information about this credential proposal. From user perspective this call means that as user (e.g. student) I want to ask organization (e.g. Faber university) to initiate issuing credentials for me using provided data',
   })
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -418,7 +427,8 @@ export default class AttestationController {
   @Post('accept-request/:credentialId')
   @ApiOperation({
     summary: 'Accept credential request by credential id',
-    description: 'Accept a credential request as issuer (by sending a credential message) to the connection associated with the credential record.'
+    description:
+      'Accept a credential request as issuer (by sending a credential message) to the connection associated with the credential record.',
   })
   async acceptOfferCredential(@Param() params: { credentialId: string }) {
     try {
@@ -439,7 +449,8 @@ export default class AttestationController {
   @Post('accept-proposal/:credentialId')
   @ApiOperation({
     summary: 'Accept credential proposal by credential id',
-    description: 'Accept a credential proposal as issuer (by sending a credential offer message) to the connection associated with the credential record.'
+    description:
+      'Accept a credential proposal as issuer (by sending a credential offer message) to the connection associated with the credential record.',
   })
   async acceptProposeCredential(@Param() params: { credentialId: string }) {
     try {
@@ -467,7 +478,8 @@ export default class AttestationController {
   @Post('accept-offer/:credentialId')
   @ApiOperation({
     summary: 'Accept credential offer by credential id',
-    description: 'Accept a credential offer as holder (by sending a credential request message) to the connection associated with the credential record.'
+    description:
+      'Accept a credential offer as holder (by sending a credential request message) to the connection associated with the credential record.',
   })
   async acceptCredentialOffer(@Param() params: { credentialId: string }) {
     try {
@@ -495,7 +507,8 @@ export default class AttestationController {
   @Post('accept-credential/:credentialId')
   @ApiOperation({
     summary: 'Accept credentials by credential id',
-    description: 'Accept a credential as holder (by sending a credential acknowledgement message) to the connection associated with the credential record.'
+    description:
+      'Accept a credential as holder (by sending a credential acknowledgement message) to the connection associated with the credential record.',
   })
   async acceptCredential(@Param() params: { credentialId: string }) {
     try {
@@ -592,7 +605,8 @@ export default class AttestationController {
   @Get('credential-info/:id')
   @ApiOperation({
     summary: 'Fetch credential information by credential id',
-    description: 'This call provides the capability to get credential information by credential id. This call returns a credential record (CredentialRecord type with fields connectionId, threadId, credentialId, state, autoAcceptCredential, errorMessage, proposalMessage, offerMessage, requestMessage, credentialMessage, credentialAttributes, linkedAttachments and others). This request get credential data directly from agent, so you can use this endpoint to get some additional info which is not presented in /v1/credential/{id}'
+    description:
+      'This call provides the capability to get credential information by credential id. This call returns a credential record (CredentialRecord type with fields connectionId, threadId, credentialId, state, autoAcceptCredential, errorMessage, proposalMessage, offerMessage, requestMessage, credentialMessage, credentialAttributes, linkedAttachments and others). This request get credential data directly from agent, so you can use this endpoint to get some additional info which is not presented in /v1/credential/{id}',
   })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -681,7 +695,8 @@ export default class AttestationController {
   @Delete('delete-credential/:id')
   @ApiOperation({
     summary: 'Delete credential by id',
-    description: 'This call provides the capability to delete credential (request/offer/proposal) by provided credential id'
+    description:
+      'This call provides the capability to delete credential (request/offer/proposal) by provided credential id',
   })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -753,7 +768,8 @@ export default class AttestationController {
   @Get('credential')
   @ApiOperation({
     summary: 'Fetch a list of credentials',
-    description: 'This call provides the capability to search credentials by using pagination and filter parameters to select credentials. This call returns a list of credentials and overall count of records. Filter supports following parameters: page, pageSize, isReceived, threadId, state, credDefId, createdDateStart, createdDateEnd, updatedDateStart, updatedDateEnd, expirationDateStart, expirationDateEnd, connectionId, principalDid'
+    description:
+      'This call provides the capability to search credentials by using pagination and filter parameters to select credentials. This call returns a list of credentials and overall count of records. Filter supports following parameters: page, pageSize, isReceived, threadId, state, credDefId, createdDateStart, createdDateEnd, updatedDateStart, updatedDateEnd, expirationDateStart, expirationDateEnd, connectionId, principalDid',
   })
   @ApiQuery({ name: 'page', required: false })
   @ApiQuery({ name: 'pageSize', required: false })
@@ -794,8 +810,8 @@ export default class AttestationController {
                     createdDate: '1970-01-01T00:00:09.761Z',
                     updatedDate: '1970-01-01T00:00:09.761Z',
                     expirationDate: '2070-01-01T00:00:09.756Z',
-                  }
-                ]
+                  },
+                ],
               },
             },
           },
@@ -921,7 +937,8 @@ export default class AttestationController {
   @Get('credential/:id')
   @ApiOperation({
     summary: 'Fetch credential by id',
-    description: 'This call provides the capability to get credential data by providing credential id. The credential definition data is the same which is returned from /v1/credential endpoint and contains generic information about credential like credentialId, credDefId, threadId, state, principalDid, connectionId, createdDate, updatedDate, expirationDate'
+    description:
+      'This call provides the capability to get credential data by providing credential id. The credential definition data is the same which is returned from /v1/credential endpoint and contains generic information about credential like credentialId, credDefId, threadId, state, principalDid, connectionId, createdDate, updatedDate, expirationDate',
   })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -1140,7 +1157,8 @@ export default class AttestationController {
   @ApiBody({ type: UpdateSchemaIdByTypeDto })
   @ApiOperation({
     summary: 'Update schemaId in CredentialsType',
-    description: 'This call provides the capability to update mapping between schema and type.'
+    description:
+      'This call provides the capability to update mapping between schema and type.',
   })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -1224,7 +1242,8 @@ export default class AttestationController {
   @Post('credentialType')
   @ApiOperation({
     summary: 'Create new CredentialType',
-    description: 'This call provides the capability to create mapping between schema and type.'
+    description:
+      'This call provides the capability to create mapping between schema and type.',
   })
   @ApiBody({ type: CredentialTypeDto })
   @ApiResponse({
@@ -1320,7 +1339,8 @@ export default class AttestationController {
   @Get('credentialType')
   @ApiOperation({
     summary: 'Fetch CredentialType contains schemaId and attributes by type',
-    description: 'This call provides the capability to get schema id and its attributes by provided type'
+    description:
+      'This call provides the capability to get schema id and its attributes by provided type',
   })
   @ApiQuery({ name: 'type', required: true })
   @ApiResponse({
@@ -1400,9 +1420,10 @@ export default class AttestationController {
         version: string;
         attrNames: string[];
         seqNo: number;
-      } = await this.attestationService.getSchemaAndAttributesBySchemaIDFromLedger(
-        credentialsType.schemaId,
-      );
+      } =
+        await this.attestationService.getSchemaAndAttributesBySchemaIDFromLedger(
+          credentialsType.schemaId,
+        );
       res = {
         schema: {
           schemaID: credentialsType?.schemaId,

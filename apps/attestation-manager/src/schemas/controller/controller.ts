@@ -16,7 +16,8 @@ import SchemasService from '@src/schemas/services/service';
 import { ResponseType } from '@src/common/response';
 import SchemaDto from '@src/schemas/entities/schema-entity';
 import {
-  ApiBody, ApiOperation,
+  ApiBody,
+  ApiOperation,
   ApiParam,
   ApiQuery,
   ApiResponse,
@@ -36,7 +37,8 @@ export default class SchemasController {
   @Get('')
   @ApiOperation({
     summary: 'Fetch a list of schemas',
-    description: 'This call provides capabilities to search schemas (which have been created by this OCM) by using pagination. This call returns a list of schemas and overall count of records. Every record contains schemaId, name, attributes'
+    description:
+      'This call provides capabilities to search schemas (which have been created by this OCM) by using pagination. This call returns a list of schemas and overall count of records. Every record contains schemaId, name, attributes',
   })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -175,7 +177,9 @@ export default class SchemasController {
   @Get('/:id')
   @ApiOperation({
     summary: 'Fetch schema by id',
-    description: 'This call provides the capability to get schema data by providing schemaId. The schema data is the same which is returned from /v1/schemas endpoint and contains generic information about schema like schemaID, name, createdBy, createdDate, updatedBy, updatedDate, attribute' })
+    description:
+      'This call provides the capability to get schema data by providing schemaId. The schema data is the same which is returned from /v1/schemas endpoint and contains generic information about schema like schemaID, name, createdBy, createdDate, updatedBy, updatedDate, attribute',
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Schema fetched successfully',
@@ -289,7 +293,8 @@ export default class SchemasController {
   @Post('')
   @ApiOperation({
     summary: 'Create a new schema',
-    description: 'This call provides the capability to create new schema on ledger by name, author, version, schema attributes and type. Later this schema can be used to issue new credential definition. This call returns an information about created schema.'
+    description:
+      'This call provides the capability to create new schema on ledger by name, author, version, schema attributes and type. Later this schema can be used to issue new credential definition. This call returns an information about created schema.',
   })
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -477,7 +482,8 @@ export default class SchemasController {
   @Get('/get-dids-for-schema/:id')
   @ApiOperation({
     summary: 'Fetch list of dids for schema id',
-    description: 'This call provides the capability to get principal dids. The format of the response is shown in the example. To issue credentials, you need to have a credential definition. This is a basic principle of this process. This credential definition is created by using the schema. Using this endpoint gives you all dids of participants to whom OCM issued credentials using specified schema.'
+    description:
+      'This call provides the capability to get principal dids. The format of the response is shown in the example. To issue credentials, you need to have a credential definition. This is a basic principle of this process. This credential definition is created by using the schema. Using this endpoint gives you all dids of participants to whom OCM issued credentials using specified schema.',
   })
   @ApiResponse({
     status: HttpStatus.OK,
