@@ -10,11 +10,11 @@ image:
 
 resources:
   requests:
-    cpu: 25m
-    memory: 64Mi
+    cpu: 100m
+    memory: 100Mi
   limits:
-    cpu: 150m
-    memory: 512Mi
+    cpu: 1
+    memory: 2Gi
 
 metrics:
   enabled: false
@@ -31,6 +31,7 @@ ssiAbstraction:
     name: ssi-abstraction-agent
     host: gaiax-ocm-engine.proofsense.in
     protocol: https
+    inboundPort: 443
     urlPath: /didcomm
     publicDidSeed: "09434281059582403190679971947289"
     autoAccept:
@@ -47,7 +48,7 @@ ssiAbstraction:
     user: smartsense-gaia-x
     password: mie4OVahpoochai6
     port: 5432
-    schema: proof
+    schema: ssi
     db: postgres
   nats:
     url: nats.ocm-engine

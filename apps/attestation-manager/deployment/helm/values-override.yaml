@@ -8,11 +8,11 @@ image:
 
 resources:
   requests:
-    cpu: 25m
-    memory: 64Mi
+    cpu: 100m
+    memory: 100Mi
   limits:
-    cpu: 150m
-    memory: 128Mi
+    cpu: 400m
+    memory: 1Gi
 
 metrics:
   enabled: false

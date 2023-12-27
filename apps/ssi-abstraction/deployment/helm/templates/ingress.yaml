@@ -28,5 +28,5 @@ spec:
               service:
                 name: {{ template "app.name" . }}
                 port:
-                  number: 443
+                  number: {{ .Values.ssiAbstraction.agent.inboundPort }}
 {{- end }}
