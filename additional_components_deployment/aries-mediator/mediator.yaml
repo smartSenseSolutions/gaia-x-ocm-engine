@@ -25,7 +25,7 @@ spec:
         - name: ACAPY_WALLET_STORAGE_CONFIG
           value: '{"url":"postgres.default:5432","wallet_scheme":"DatabasePerWallet"}'
         - name: ACAPY_WALLET_STORAGE_CREDS
-          value: '{"account":"smartsense-gaia-x","password":"mie4OVahpoochai6","admin_account":"smartsense-gaia-x","admin_password":"mie4OVahpoochai6"}'
+          value: '{"account":"smartsense-gaia-x","password":"<db-pass>","admin_account":"smartsense-gaia-x","admin_password":"<db-pass>"}'
         - name: ACAPY_WALLET_NAME
           value: "mediator"
         - name: ACAPY_WALLET_KEY
